@@ -6,7 +6,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  		var currentURL = req.url;
+  		/*var currentURL = req.url;
   		var paramString = url.parse(currentURL).query;
   		getParams = qs.parse(paramString);
   		if(getParams.logout != 1 ){
@@ -23,6 +23,14 @@ router.get('/', function(req, res, next) {
 	  	}else{
 	  		req.session.destroy();
 	  		res.redirect("/");
+	  	}*/
+
+	  	if(auth.check(req,res)){	  		
+	  		req.session.token = auth.getToken();	
+			res.render('index');
+
+	  	}else{
+	  		res.redirect('/singup');
 	  	}
   		
   	
@@ -42,6 +50,10 @@ router.post('/login', function(req,res){
 	}
 	
 	
+})
+
+router.get('/singup', function(req,res){
+	res.render('login', {title: "Авторизация"})
 })
 
 module.exports = router;
