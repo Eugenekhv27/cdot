@@ -1,0 +1,46 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title= title
+    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='stylesheets/common.css', rel='stylesheet')
+    link(href='stylesheets/metisMenu.min.css', rel='stylesheet')
+    link(href='stylesheets/sb-admin-2.min.css', rel='stylesheet')
+    link(href='stylesheets/morris.css', rel='stylesheet')
+    link(href='stylesheets/font-awesome.min.css', rel='stylesheet', type='text/css')
+  body
+    .container
+      .row
+
+        .col-md-4.col-md-offset-4
+          .login-panel.panel.panel-default
+            .panel-heading
+              if authfalse == 1 
+                .alert.alert-danger(role='alert')
+                  strong Неверный логин или пароль
+              h3.panel-title Пожалуйста авторизируйтесь
+            .panel-body
+              form(role='form' method='post' action='/login')
+                fieldset
+                  .form-group
+                    input.form-control(placeholder='Логин', name='login', type='login', autofocus='')
+                  .form-group
+                    input.form-control(placeholder='Пароль', name='password', type='password', value='')
+                  button.btn.btn-lg.btn-success.btn-block() Войти
+      .col-md-6.col-md-offset-3.text-center
+        .alert.alert-success(role='alert')
+          strong ЦДОТ | ХГУЭП | 2017
+    footer.footer
+      .container
+        p.text-muted.text-right Поддержка : +7-999-999-99-99 | Email : email@gmail.com
+
+
+    script(src='javascripts/jquery.min.js')
+    script(src='javascripts/bootstrap.min.js')
+    script(src='javascripts/metisMenu.min.js')
+    script(src='javascripts/sb-admin-2.min.js')
