@@ -5,14 +5,15 @@ var check = function(token){
 	var checkToken = false;
 	tokens.some(function(item){
 		if(item.toString() == token.toString() ){
-			console.log("here 1")
+			console.log("Процесс проверки токена...")
+			
 			checkToken = true;
 		}
 
 	});
 
 	if(checkToken){
-		console.log("here 2")
+		console.log("Проверка токена прошла успешно!")
 		return true;
 	}else{
 		
@@ -21,7 +22,7 @@ var check = function(token){
 }
 
 var equal = function(userLogin, userPassword){
-	if(userPassword == "admin" && userLogin == "admin"){
+	if((userPassword == "admin" && userLogin == "admin") || (userPassword == "user" && userLogin == "user")) {
 		return true;
 	}else{
 		return false;
