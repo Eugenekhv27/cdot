@@ -1,5 +1,5 @@
 var express = require('express');
-var auth = require('../bin/controllers/checkAuth')
+var auth = require('../bin/controllers/checkAuth');
 var url = require('url');
 var qs = require("querystring");
 var router = express.Router();
@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 
 	  	if(auth.check(req,res)){	  		
 	  		req.session.token = auth.getToken();	
-			res.render('index');
+			res.render('index', {login: req.session.login});
 
 	  	}else{
 	  		res.redirect('/singup');
@@ -42,6 +42,7 @@ router.post('/login', function(req,res){
 		//req.session.auth = true;
 		req.session.auth = true;
 		req.session.token = auth.getToken();
+		req.session.login = req.body.login;
 		console.log(req.session.id)
 		res.redirect("/")
 		res.end();
