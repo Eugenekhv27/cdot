@@ -4,6 +4,7 @@ var url = require('url');
 var qs = require("querystring");
 var router = express.Router();
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   		/*var currentURL = req.url;
@@ -26,8 +27,11 @@ router.get('/', function(req, res, next) {
 	  	}*/
 
 	  	if(auth.check(req,res)){	  		
-	  		req.session.token = auth.getToken();	
-			res.render('index', {login: req.session.login});
+	  		req.session.token = auth.getToken();
+	  		auth.getUserInfo(req.session.login, function(userInfo){
+	  			res.render('index', {fname: userInfo.fname, lname: userInfo.lname});
+	  		})	
+			
 
 	  	}else{
 	  		res.redirect('/singup');
@@ -38,20 +42,31 @@ router.get('/', function(req, res, next) {
 	
 
 router.post('/login', function(req,res){
-	if(auth.equal(req.body.login, req.body.password)){
-		//req.session.auth = true;
-		req.session.auth = true;
-		req.session.token = auth.getToken();
-		req.session.login = req.body.login;
-		console.log(req.session.id)
-		res.redirect("/")
-		res.end();
+
+	auth.equal(req.body.login, req.body.password, function(check){
+		if(check)
+		{
+			req.session.auth = true;
+			req.session.token = auth.getToken();
+			req.session.login = req.body.login;
+			console.log(req.session.id)
+			res.redirect("/")
+			res.end();
 	}else{
-		res.render('login', {title: "Авторизация", authfalse:1})
+			console.log("Im here")
+			res.render('login', {title: "Авторизация", authfalse:1})
 	}
+
+	})
+});
+
+		//req.session.auth = true;
+
 	
 	
-})
+	
+
+
 
 router.get('/singup', function(req,res){
 	res.render('login', {title: "Авторизация"})
