@@ -1,5 +1,7 @@
 var express = require('express');
 var auth = require('../bin/controllers/checkAuth');
+var chat = require('../bin/controllers/chatController');
+
 var url = require('url');
 var qs = require("querystring");
 var router = express.Router();
@@ -59,6 +61,18 @@ router.post('/login', function(req,res){
 
 	})
 });
+
+
+router.get('/getChat', function(req,res){
+
+		chat.getChat(function(result){
+			res.send(result)
+		})
+		
+
+
+
+})
 
 		//req.session.auth = true;
 

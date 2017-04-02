@@ -13,8 +13,6 @@ connection.connect();
 
 
 
-	
-
 	var getPass = function(login, callback){
 
 		connection.query('SELECT * FROM users WHERE login =' + "\"" + login + "\"", function(err,res,fields){	
