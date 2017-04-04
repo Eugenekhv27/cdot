@@ -16,5 +16,22 @@ var getChat = function(callback){
 }
 
 
+var checkChat = function(req,lmid, callback){
+		chatM.checkChat(req,lmid, function(data){
+			
+			callback(data);
+		})
+
+}
+
+var putMessage = function(msg, id, callback){
+	chatM.putMessage(msg,id, function(str){
+		callback(str)
+	})
+}
+
+
 
 module.exports.getChat = getChat;
+module.exports.checkChat = checkChat;
+module.exports.putMessage = putMessage;

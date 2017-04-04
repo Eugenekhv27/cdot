@@ -44,8 +44,21 @@ connection.connect();
 	
 	}
 
+
+	var getUsers = function(callback){
+		connection.query('SELECT * FROM users', function(err,res,fields){
+			if(err){
+				console.log(err);
+			}else{
+				callback(res)
+			}
+
+		})
+	}
+
 	
 
 
 module.exports.getPass = getPass;
+module.exports.getUsers = getUsers;
 module.exports.getUserInfo = getUserInfo;

@@ -82,7 +82,16 @@ var getUserInfo = function(login,callback){
 
 }
 
+var getUsers = function(callback){
+
+	user.getUsers(function(users){
+		callback(users);
+	})
+
+}
+
 module.exports.check = check;
+module.exports.getUsers = getUsers;
 module.exports.equal = equal;
 module.exports.getToken = getToken;
 module.exports.getUserInfo = getUserInfo;
