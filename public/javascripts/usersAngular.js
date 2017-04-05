@@ -21,7 +21,11 @@ usersApp.controller("usersController", function($scope, $http){
 	}
 
 	$scope.setEditPanelTrue = function(){
+		$scope.deletePanel = false;
 			var elem;
+			elem = angular.element(document.querySelector(".deleteUserButton"));
+			elem.text("Удалить")
+			elem.removeClass("list-group-item-info");
 		if($scope.editPanel){
 			elem = angular.element(document.querySelector(".editUserButton"));
 			elem.text("Редактировать")
@@ -32,6 +36,49 @@ usersApp.controller("usersController", function($scope, $http){
 			elem.text("Отмена редактирования")
 			elem.addClass("list-group-item-info");
 			$scope.editPanel = true;
+		}
+		
+	}
+
+	$scope.userEdit = function(id,fname,lname,rights){
+		
+		var modalID = angular.element(document.querySelector(".modalEditID"));
+		modalID.text(id)
+		var modalFname = angular.element(document.querySelector(".modalEditFname")).children();
+		modalFname = modalFname[0];
+		modalFname.value = fname
+		var modalLname = angular.element(document.querySelector(".modalEditLname")).children();
+		modalLname = modalLname[0];
+		modalLname.value = lname
+		var modalRights = angular.element(document.querySelector(".modalEditRights")).children();
+		if(rights == "Третий уровень доступа"){
+			modalRights[0][0].selected = true;	
+		}else if(rights == "Второй уровень доступа"){
+			modalRights[0][1].selected = true;	
+		}else{
+			modalRights[0][2].selected = true;	
+		}
+		
+		
+
+	}
+
+		$scope.setDeletePanelTrue = function(){
+			$scope.editPanel = false;
+			var elem;
+			elem = angular.element(document.querySelector(".editUserButton"));
+			elem.text("Редактировать")
+			elem.removeClass("list-group-item-info");
+		if($scope.deletePanel){
+			elem = angular.element(document.querySelector(".deleteUserButton"));
+			elem.text("Удалить")
+			elem.removeClass("list-group-item-info");
+			$scope.deletePanel = false;
+		}else{
+			elem = angular.element(document.querySelector(".deleteUserButton"));
+			elem.text("Отмена удаления")
+			elem.addClass("list-group-item-info");
+			$scope.deletePanel = true;
 		}
 		
 	}

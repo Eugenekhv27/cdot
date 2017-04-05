@@ -177,6 +177,8 @@ html(lang='en' ng-app="usersApp" )
                             th Фалимия
                             th Уровень доступа
                             th(ng-show="editPanel")
+                            th(ng-show="deletePanel")
+
                         tbody(ng-repeat="user in users")
                           tr
                             td {{user.id}}
@@ -184,18 +186,20 @@ html(lang='en' ng-app="usersApp" )
                             td {{user.lname}}
                             td {{user.rights}}
                             td(ng-show="editPanel") 
-                                a
+                                a(href="#editUser" ng-click="userEdit(user.id, user.fname, user.lname, user.rights)" data-toggle="modal")
                                   i.fa.fa-pencil
+                            td(ng-show="deletePanel")
+                                a
+                                  i.fa.fa-trash                              
 
 
           .col-lg-3
             ul.list-group.text-left.usersPanel
               a(ng-click="setEditPanelTrue()")
                 li.list-group-item.editUserButton Редактировать
-              a(href="#")
-                li.list-group-item.del Удалить
-              a(href="#")
-                li.list-group-item.editR Изменить права
+              a(ng-click="setDeletePanelTrue()")
+                li.list-group-item.deleteUserButton Удалить
+              
               
 
 
@@ -213,4 +217,47 @@ html(lang='en' ng-app="usersApp" )
     script(src='javascripts/raphael.min.js')
 
     // Custom Theme JavaScript
+    // HTML-код модального окна
+    #editUser.modal.fade
+      .modal-dialog.modal-lg
+        .modal-content
+          // Заголовок модального окна
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4.modal-title Редактирование пользователя
+          // Основное содержимое модального окна
+          .modal-body
+            table.table.table-bordered.table-hover.table-striped.usersPanel
+              thead
+                tr
+                  th ID
+                  th Имя
+                  th Фалимия
+                  th Уровень доступа
+              tbody
+                tr
+                  td(class="modalEditID") 
+                  td(class="modalEditFname")
+                    input.form-control 
+                  td(class="modalEditLname") 
+                    input.form-control
+                  td(class="modalEditRights") 
+                    select.form-control
+                      option
+                        | Трейтий уровень доступа
+                      option
+                        | Второй уровень доступа
+                      option
+                        | Первый уровень доступа
+
+          // Футер модального окна
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+            button.btn.btn-primary(type='button') Сохранить изменения
+    // Скрипт, вызывающий модальное окно после загрузки страницы
+    script.
+      $(document).ready(function() {
+      $("#myModalBox").modal('show');
+      });
+
 
