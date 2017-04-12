@@ -34,7 +34,7 @@ var getAllMessage = function(callback){
 var putMessage = function(message, id, callback){
 
 connection.query('INSERT INTO `chat` (`id`, `id_user`, `message`, `time`) VALUES (NULL, ' + id +' , \' ' + message.message +' \', \' ' + message.time +' \')', function(err,res,fields){
-	if(err){console.log(err)}else{callback("200"); myEmitter.emit('someEvent'); }
+	if(err){console.log(err)}else{callback("200"); myEmitter.emit('push'); }
 
 })
 

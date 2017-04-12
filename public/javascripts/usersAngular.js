@@ -41,7 +41,7 @@ usersApp.controller("usersController", function($scope, $http){
 	}
 
 	$scope.userEdit = function(id,fname,lname,rights){
-		
+		$scope.successUPD = false;
 		var modalID = angular.element(document.querySelector(".modalEditID"));
 		modalID.text(id)
 		var modalFname = angular.element(document.querySelector(".modalEditFname")).children();
@@ -62,6 +62,41 @@ usersApp.controller("usersController", function($scope, $http){
 		
 
 	}
+
+	$scope.updUser = function (){
+		var modalID = angular.element(document.querySelector(".modalEditID"));
+		modalID = modalID.text()
+		var modalFname = angular.element(document.querySelector(".modalEditFname")).children();
+		modalFname = modalFname[0].value;
+		var modalLname = angular.element(document.querySelector(".modalEditLname")).children();
+		modalLname = modalLname[0].value
+		var modalRights = angular.element(document.querySelector(".modalEditRights")).children();				
+		if(modalRights[0][0].selected){
+			modalRights = "rwd";
+		}else if(modalRights[0][1].selected){
+			modalRights = "rw0";
+		}else{
+			modalRights = "r00";
+		}
+
+		var button = angular.element(document.querySelector(".button-to-push-user")); 
+
+		button.text("Загрузка...");
+		$http.get("/updUser?id=" + modalID + "&fname="+modalFname + "&lname="+modalLname + "&rights=" + modalRights).then(function(data){
+			$scope.successUPD = true;
+			button.text("Сохранить изменения");
+			location.reload()
+
+		})
+	}
+
+
+		$scope.delUser = function(id){
+			$http.get("/delUser?id=" + id).then(function(data){
+				location.reload()
+				
+		})
+		}
 
 		$scope.setDeletePanelTrue = function(){
 			$scope.editPanel = false;

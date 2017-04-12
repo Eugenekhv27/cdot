@@ -87,7 +87,7 @@ html(lang='en' ng-app="usersApp" )
                   
                 
               li
-                a(href='forms.html')
+                a(href='/students')
                   i.fa.fa-graduation-cap.fa-fw
                   |  Студенты (Info)
 
@@ -189,7 +189,7 @@ html(lang='en' ng-app="usersApp" )
                                 a(href="#editUser" ng-click="userEdit(user.id, user.fname, user.lname, user.rights)" data-toggle="modal")
                                   i.fa.fa-pencil
                             td(ng-show="deletePanel")
-                                a
+                                a(ng-click="delUser(user.id)")
                                   i.fa.fa-trash                              
 
 
@@ -236,11 +236,11 @@ html(lang='en' ng-app="usersApp" )
                   th Уровень доступа
               tbody
                 tr
-                  td(class="modalEditID") 
-                  td(class="modalEditFname")
-                    input.form-control 
+                  td(class="modalEditID" ng-model="updID") 
+                  td(class="modalEditFname" )
+                    input.form-control(ng-model="updFname") 
                   td(class="modalEditLname") 
-                    input.form-control
+                    input.form-control(ng-model="updLname")
                   td(class="modalEditRights") 
                     select.form-control
                       option
@@ -252,8 +252,10 @@ html(lang='en' ng-app="usersApp" )
 
           // Футер модального окна
           .modal-footer
+            .alert.alert-success.text-left(ng-show="successUPD")
+              h5 Успешно
             button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
-            button.btn.btn-primary(type='button') Сохранить изменения
+            button.btn.btn-primary(type='button' class="button-to-push-user" ng-click="updUser()") Сохранить изменения
     // Скрипт, вызывающий модальное окно после загрузки страницы
     script.
       $(document).ready(function() {

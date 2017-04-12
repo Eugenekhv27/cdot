@@ -56,9 +56,36 @@ connection.connect();
 		})
 	}
 
+	var updUser = function(id,fname,lname,rights,callback){
+		connection.query('UPDATE users SET fname=' + "\"" + fname + "\"" + ",lname=" + "\"" + lname + "\"" + ",rights=" + "\"" + rights + "\"" + "WHERE id=" + "\"" + id + "\"", function(err,res,fields){
+			if(err){
+				console.log(err);
+			}else{
+				callback(true);
+			}
+		})
+	}
+	var delUser = function(id,callback){
+		connection.query('DELETE FROM chat WHERE id_user=' + "\"" + id + "\"" , function(err,res,fields){
+			if(err){
+				console.log(err);
+			}else{
+				connection.query('DELETE FROM users WHERE id=' + "\"" + id + "\"" , function(err,res,fields){
+			if(err){
+				console.log(err);
+			}else{
+				callback(true);
+			}
+		})
+			}
+		})
+	}
+
 	
 
 
 module.exports.getPass = getPass;
+module.exports.updUser = updUser;
+module.exports.delUser = delUser;
 module.exports.getUsers = getUsers;
 module.exports.getUserInfo = getUserInfo;

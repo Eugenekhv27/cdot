@@ -90,8 +90,23 @@ var getUsers = function(callback){
 
 }
 
+var updUser = function(id,fname,lname,rights,callback){
+	user.updUser(id,fname,lname,rights,function(){
+		callback(true);
+	})}
+
+var delUser = function(id,callback){
+	user.delUser(id,function(){
+		callback(true);
+	})	
+	
+
+}
+
 module.exports.check = check;
+module.exports.updUser = updUser;
 module.exports.getUsers = getUsers;
+module.exports.delUser = delUser;
 module.exports.equal = equal;
 module.exports.getToken = getToken;
 module.exports.getUserInfo = getUserInfo;
