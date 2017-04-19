@@ -3,6 +3,34 @@ a:hover{
 	text-decoration: none;
 }
 
+thead tr th{
+	font-size: 10px;
+
+}
+
+tbody tr{
+	cursor: pointer;
+}
+
+.editStudentTable tbody td input{
+	font-size: 10px;
+}
+
+#page-wrapper{
+	padding-top: 50px;
+}
+
+.navbar-default-s{
+	position: fixed;
+}
+
+.navbar-default{}
+
+tbody tr td{
+	font-size: 13px;
+
+}
+
 .usersPanel a:hover
 {
 	cursor:pointer;

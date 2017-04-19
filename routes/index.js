@@ -23,6 +23,15 @@ router.get('/', function(req, res, next) {
   	
 });
 
+
+router.post('/editStudent', function(req,res){
+	
+	students.editStudent(req.body,function(){
+		res.end("success");
+	})
+
+})
+
 router.get('/students', function(req,res){
 
 		  	if(auth.check(req,res)){	  		

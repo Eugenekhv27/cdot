@@ -18,7 +18,7 @@ var getSudentsInfo = function(startIndex,amount,fio,group,year,pay,callback ){
 		if(fio == undefined || fio == 'undefined' || fio.length == 0 ){
 			return "";
 		}else{
-			console.log(fio)
+			
 			return " AND fio=" + "\"" + fio + "\""
 		}
 	}
@@ -27,7 +27,7 @@ var getSudentsInfo = function(startIndex,amount,fio,group,year,pay,callback ){
 		if(year == undefined || year == 'undefined' || year.length == 0 ){
 			return "";
 		}else{
-			console.log(fio)
+			
 			return " AND god_postup=" + "\"" + year + "\""
 		}
 	}
@@ -49,7 +49,7 @@ var getSudentsInfo = function(startIndex,amount,fio,group,year,pay,callback ){
 				if(err){console.log(err)}else{					
 					g_id = res[0].id
 					connection.query('SELECT id,fio,dr, (SELECT gruppa FROM grup WHERE id = id_grup ) as grup, email, god_postup, zachotka, sostoyanie, oplata FROM stud WHERE id_grup='  + g_id  + getFIO() + getYears() +   ' LIMIT '  + startIndex  + ","  + amount, function(err,res,fields){
-						console.log(res)
+						
 						var result = res;
 						connection.query('SELECT COUNT(*) as count FROM stud WHERE id_grup='  + g_id  + getFIO() + getYears(),function(err,res,fields){
 							
@@ -62,7 +62,7 @@ var getSudentsInfo = function(startIndex,amount,fio,group,year,pay,callback ){
 			}else{
 
 						connection.query('SELECT id,fio,dr, (SELECT gruppa FROM grup WHERE id = id_grup ) as grup, email, god_postup, zachotka, sostoyanie, oplata FROM stud WHERE id > 0' + getFIO() + getYears() +   ' LIMIT '  + startIndex  + ","  + amount, function(err,res,fields){
-						console.log(res)
+						
 						var result = res;
 						connection.query('SELECT COUNT(*) as count FROM stud WHERE id > 0' + getFIO() + getYears(),function(err,res,fields){
 							
@@ -102,8 +102,29 @@ var getGroups = function(callback){
 
 }
 
+var editStudent = function(options,callback){
+
+	connection.query('SELECT id FROM grup WHERE gruppa=' + "\"" + options.grup + "\"" , function(err,res,fields){
+		
+		grid = res[0].id;
+
+		{
+			connection.query('UPDATE stud SET fio=' + "\"" + options.fio + "\"" + ",dr=" + "\"" + options.dr + "\"" + ",id_grup=" + "\"" + grid + "\"" + ",email=" + "\"" + options.email + "\"" + ",god_postup=" +  options.god_postup + ",zachotka=" + "\"" + options.zachotka + "\"" + ",sostoyanie=" + "\"" + options.sostoyanie + "\""  + " WHERE id=" + "\"" + options.id + "\"", function(err,res,fields){
+				if(err){
+					console.log(err)
+				}else{
+					callback("Студент изменен!");
+				}
+			})
+		}
+		
+	})
+	
+	
+}
 
 
+module.exports.editStudent = editStudent
 module.exports.getSudentsInfo = getSudentsInfo;
 module.exports.getCount = getCount;
 module.exports.getGroups = getGroups;

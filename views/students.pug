@@ -26,14 +26,14 @@ html(lang='en' ng-app="studentsApp" )
   body(ng-controller="studentsController")
     #wrapper
       // Navigation
-      nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bottom: 0')
+      nav.navbar.navbar-default.navbar-fixed-top(role='navigation', style='margin-bottom: 0')
         .navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand() ЦДОТ ХГУЭП
+          a.navbar-brand.navbar-default-s() ЦДОТ ХГУЭП
         // /.navbar-header
         ul.nav.navbar-top-links.navbar-right
          
@@ -56,7 +56,7 @@ html(lang='en' ng-app="studentsApp" )
             // /.dropdown-user
           // /.dropdown
         // /.navbar-top-links
-        .navbar-default.sidebar(role='navigation')
+        .navbar-default.navbar-default-s.sidebar(role='navigation')
           .sidebar-nav.navbar-collapse
             ul#side-menu.nav
 
@@ -67,17 +67,17 @@ html(lang='en' ng-app="studentsApp" )
               li
                 a(href='#')
                   i.fa.fa-bar-chart-o.fa-fw
-                  |  Charts
+                  |  Глобальные настройки
                  
               li
                 a(href='tables.html')
                   i.fa.fa-table.fa-fw
-                  |  Tables
+                  |  Журнал
 
               li
                 a(href='forms.html')
                   i.fa.fa-edit.fa-fw
-                  |  Forms
+                  |  Лаборанты
               if rights == "rwd"
         
                 li
@@ -168,7 +168,7 @@ html(lang='en' ng-app="studentsApp" )
                     i.fa.fa-arrow-circle-right
                   .clearfix
         .row
-          .col-lg-4
+          .col-lg-5
             .form-group
               label ФИО
               input.form-control(type="text" ng-model="queryFIO")
@@ -187,23 +187,18 @@ html(lang='en' ng-app="studentsApp" )
                   
           .col-lg-2
             .form-group
-              label Год Поступления
+              label Год поступления
               input.form-control(type="text" ng-model="year")
-          .col-lg-2
-            .form-group
-              label Оплата
-              select.form-control(name="singleSelect" id="singleSelect" ng-model="aa.singleSelect")
-                option(value = "undefined")
-                option(value="false" ) Не оплачено
-                option(value="true") Оплачено
+          
           .col-lg-1
             label Найти
-            button.btn.btn-success(ng-click="loadStudents(0,30,queryFIO,gr.groupSelect,year,aa.singleSelect)")
+            button.btn.btn-success(ng-click="loadStudents(0,30,queryFIO,gr.groupSelect,year)")
               i.fa.fa-search.fa-1x
           .col-lg-1
             label Добавить
-            button.btn.btn-success
-              i.fa.fa-plus.fa-1x  
+            a(href="#editStudent" data-toggle="modal")
+              button.btn.btn-success
+                i.fa.fa-plus.fa-1x  
                   
 
 
@@ -223,20 +218,19 @@ html(lang='en' ng-app="studentsApp" )
                             th e-mail
                             th Год поступления
                             th № Зачетной книжки
-                            th Состояние
-                            th Оплата
+                            th Состояние                            
 
                         tbody(ng-repeat="student in studentsModel track by $index")
-                          tr
-                            td {{student.id}}
-                            td {{student.fio}}
-                            td {{student.dr}}
-                            td {{student.grup}}
-                            td {{student.email}}
-                            td {{student.god_postup}}
-                            td {{student.zachotka}}
-                            td {{student.sostoyanie}}
-                            td {{student.oplata}}
+                            tr(ng-click="openEdit(student.id, student.fio, student.dr,student.grup, student.email,student.god_postup,student.zachotka,student.sostoyanie)")
+                              td {{student.id}}
+                              td {{student.fio}}
+                              td {{student.dr}}
+                              td {{student.grup}}
+                              td {{student.email}}
+                              td {{student.god_postup}}
+                              td {{student.zachotka}}
+                              td {{student.sostoyanie}}
+                            
           .row
             .col-lg-12.text-center.loader
               .cssload-container
@@ -247,10 +241,10 @@ html(lang='en' ng-app="studentsApp" )
                     span.cssload-loading-center
           .row
             .col-lg-12.text-center
-              p Показано: {{amount}} из {{cou}}
+              
               ul.pagination(ng-repeat="item in pug track by $index")
-                li
-                  a(href='#') {{item}}
+                li.pagination-item(onClick="setActive(this)")
+                  a(class="" ng-click="selectPage(item)") {{item}}
               
                
 
@@ -275,7 +269,7 @@ html(lang='en' ng-app="studentsApp" )
 
     // Custom Theme JavaScript
     // HTML-код модального окна
-    #editUser.modal.fade
+    #editStudent.modal.fade
       .modal-dialog.modal-lg
         .modal-content
           // Заголовок модального окна
@@ -284,13 +278,46 @@ html(lang='en' ng-app="studentsApp" )
             h4.modal-title Редактирование пользователя
           // Основное содержимое модального окна
           .modal-body
-          
+          table.table.table-bordered.table-hover.table-striped.editStudentTable
+                        thead
+                          tr
+                            th ID
+                            th ФИО
+                            th Дата рождения
+                            th Группа
+                            th e-mail
+                            th Год поступления
+                            th № Зачетной книжки
+                            th Состояние
+                        tbody
+                          td(ng-model="editOptions.id") {{editOptions.id}}
+
+                            
+                          td
+                            input.form-control(value="{{editOptions.fio}}" ng-model="editOptions.fio")
+
+                          td
+                            input.form-control(placeholder="DD.MM.YYYY" value="{{editOptions.dr}}" ng-model="editOptions.dr")
+
+                          td.col-lg-2
+                            select.form-control.editGrupItem(ng-model="groupEdit" )
+                              option
+                              option(ng-repeat='gp in groups', value='{{gp.gruppa}}') {{gp.gruppa}}
+                          td
+                            input.form-control(value="{{editOptions.email}}" ng-model="editOptions.email")
+                          td
+                            input.form-control(value="{{editOptions.god_postup}}" ng-model="editOptions.god_postup")
+                          td
+                            input.form-control(value="{{editOptions.zachotka}}" ng-model="editOptions.zachotka")
+                          td
+                            input.form-control(value="{{editOptions.sostoyanie}}" ng-model="editOptions.sostoyanie")
+
           // Футер модального окна
           .modal-footer
             .alert.alert-success.text-left(ng-show="successUPD")
               h5 Успешно
             button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
-            button.btn.btn-primary(type='button' class="button-to-push-user" ng-click="updUser()") Сохранить изменения
+            button.btn.btn-primary(type='button' class="button-to-push-user" ng-click="updStudent(editOptions.id,editOptions.fio,editOptions.dr,groupEdit,editOptions.email,editOptions.god_postup,editOptions.zachotka,editOptions.sostoyanie)") Сохранить изменения
     // Скрипт, вызывающий модальное окно после загрузки страницы
     script.
       $(document).ready(function() {

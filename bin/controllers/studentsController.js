@@ -23,6 +23,17 @@ var getGroups = function(callback){
 	})
 }
 
+var editStudent = function(options,callback){
+
+
+	user.editStudent(options,function(back){
+		callback(back)
+	})
+}
+
+
+module.exports.editStudent = editStudent
+
 module.exports.getSudentsInfo = getSudentsInfo;
 module.exports.getCount = getCount;
 module.exports.getGroups = getGroups;
