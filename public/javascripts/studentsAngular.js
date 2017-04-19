@@ -18,6 +18,56 @@ $scope.pug =[];
 $scope.options = {}
 
 
+$scope.delStudent = function(id){
+	options = {id:id}
+	var quest = angular.element(document.querySelector(".button-to-del-user"));
+	quest.attr("disabled", "disabled")
+	$http.post("/delStud",options).then(function(data){
+		console.log("Студент удален")
+		function hideM(){
+				quest.removeAttr("disabled")
+				$("#editStudent").modal('hide');
+				$scope.loadStudents($scope.options.sIndex, $scope.options.amount, $scope.options.fio, $scope.options.gruppa, $scope.options.year);
+			}
+		setTimeout(hideM, 1000);
+	})
+}
+
+$scope.addStudent = function(fio,dr,grup,email,god_postup,zachotka,sostoyanie){
+	
+
+	pushOptions = {
+		fio:fio,
+		dr: dr,
+		grup: grup,
+		email: email,
+		god_postup: god_postup,
+		zachotka: zachotka,
+		sostoyanie: sostoyanie
+	}
+	var checkValidate = true;
+		for (key in pushOptions) {
+			if(key != 'email' && key != 'zachotka'){
+				if(pushOptions[key] == undefined || pushOptions[key] == 'undefined' || pushOptions[key] == ' ' || pushOptions[key] == ""){
+					checkValidate = false;
+				}
+			}
+		};
+		if(checkValidate)
+		{
+		$http.post("/addStudent", pushOptions).then(function(data){
+			function hideM(){
+				$("#addStudent").modal('hide');
+				$scope.loadStudents($scope.options.sIndex, $scope.options.amount, $scope.options.fio, $scope.options.gruppa, $scope.options.year);
+			}
+
+			setTimeout(hideM, 1000);
+		})
+	}else{
+			alert("Заполните все поля!")
+		}
+
+}
 $scope.updStudent = function(id,fio,dr,grup,email,god_postup,zachotka,sostoyanie){
 
 	if(grup == undefined || grup == 'undefined' || grup == ""){
@@ -33,7 +83,7 @@ $scope.updStudent = function(id,fio,dr,grup,email,god_postup,zachotka,sostoyanie
 			zachotka: zachotka,
 			sostoyanie: sostoyanie
 		}
-		console.log(pushOptions)
+		
 
 		$http.post("/editStudent", pushOptions).then(function(data){
 			function hideM(){
@@ -85,7 +135,7 @@ $scope.updStudent = function(id,fio,dr,grup,email,god_postup,zachotka,sostoyanie
 			year: year
 		}
 
-		console.log($scope.options)
+		
 
 		
 		

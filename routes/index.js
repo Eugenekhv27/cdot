@@ -32,6 +32,25 @@ router.post('/editStudent', function(req,res){
 
 })
 
+router.post('/addStudent', function(req,res){
+	
+	students.addStudent(req.body,function(){
+		res.end("success");
+	})
+	
+})
+
+
+router.post('/delStud', function(req,res){
+	
+	students.delStud(req.body,function(){
+		res.end("success");
+	})
+	
+})
+
+
+
 router.get('/students', function(req,res){
 
 		  	if(auth.check(req,res)){	  		

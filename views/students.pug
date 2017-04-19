@@ -196,7 +196,7 @@ html(lang='en' ng-app="studentsApp" )
               i.fa.fa-search.fa-1x
           .col-lg-1
             label Добавить
-            a(href="#editStudent" data-toggle="modal")
+            a(href="#addStudent" data-toggle="modal")
               button.btn.btn-success
                 i.fa.fa-plus.fa-1x  
                   
@@ -317,11 +317,58 @@ html(lang='en' ng-app="studentsApp" )
             .alert.alert-success.text-left(ng-show="successUPD")
               h5 Успешно
             button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+            button.btn.btn-danger(type='button' class="button-to-del-user" ng-click="delStudent(editOptions.id)") Удалить студента
             button.btn.btn-primary(type='button' class="button-to-push-user" ng-click="updStudent(editOptions.id,editOptions.fio,editOptions.dr,groupEdit,editOptions.email,editOptions.god_postup,editOptions.zachotka,editOptions.sostoyanie)") Сохранить изменения
     // Скрипт, вызывающий модальное окно после загрузки страницы
-    script.
-      $(document).ready(function() {
-      $("#myModalBox").modal('show');
-      });
+    #addStudent.modal.fade
+      .modal-dialog.modal-lg
+        .modal-content
+          // Заголовок модального окна
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4.modal-title Добавление пользователя
+          // Основное содержимое модального окна
+          .modal-body
+          table.table.table-bordered.table-hover.table-striped.editStudentTable
+                        thead
+                          tr                            
+                            th ФИО *
+                            th Дата рождения *
+                            th Группа *
+                            th e-mail
+                            th Год поступления *
+                            th № Зачетной книжки
+                            th Состояние *
+                        tbody
+                                                      
+                          td
+                            input.form-control(ng-model="addst.fio")
+
+                          td
+                            input.form-control(placeholder="DD.MM.YYYY" ng-model="addst.dr")
+
+                          td.col-lg-2
+                            select.form-control.editGrupItem(ng-model="groupAdd" )
+                              option
+                              option(ng-repeat='gp in groups', value='{{gp.gruppa}}') {{gp.gruppa}}
+                          td
+                            input.form-control(ng-model="addst.email")
+                          td
+                            input.form-control(ng-model="addst.god_postup")
+                          td
+                            input.form-control(ng-model="addst.zachotka")
+                          td
+                            input.form-control(ng-model="addst.sostoyanie")
+
+          // Футер модального окна
+          .modal-footer
+            .alert.alert-success.text-left(ng-show="successUPD")
+              h5 Успешно
+            button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+            
+            button.btn.btn-primary(type='button' class="button-to-push-user" ng-click="addStudent(addst.fio,addst.dr,groupAdd,addst.email,addst.god_postup,addst.zachotka,addst.sostoyanie)") Добавить
+    // Скрипт, вызывающий модальное окно после загрузки страницы
+    
+
 
 

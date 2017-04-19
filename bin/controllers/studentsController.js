@@ -31,9 +31,28 @@ var editStudent = function(options,callback){
 	})
 }
 
+var addStudent = function(options,callback){
+
+
+	user.addStudent(options,function(back){
+		callback(back)
+	})
+}
+
+var delStud = function(options,callback){
+
+
+	user.delStud(options,function(back){
+		callback(back)
+	})
+}
+
+
+
 
 module.exports.editStudent = editStudent
-
+module.exports.delStud = delStud
+module.exports.addStudent = addStudent
 module.exports.getSudentsInfo = getSudentsInfo;
 module.exports.getCount = getCount;
 module.exports.getGroups = getGroups;

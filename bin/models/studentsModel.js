@@ -124,7 +124,38 @@ var editStudent = function(options,callback){
 }
 
 
+var addStudent = function(options,callback){
+
+	connection.query('SELECT id FROM grup WHERE gruppa=' + "\"" + options.grup + "\"" , function(err,res,fields){
+		
+		grid = res[0].id;
+
+		{
+			connection.query("INSERT INTO stud (`fio`, `dr`, `id_grup`, `email`, `god_postup`, `zachotka`, `sostoyanie`) VALUES " + "("  + "\"" + options.fio + "\"" + "," + "\"" + options.dr + "\"" + "," + "\"" + grid + "\"" + "," + "\"" + options.email + "\"" + "," + "\"" + options.god_postup + "\"" + "," + "\"" + options.zachotka + "\"" + "," + "\"" + options.sostoyanie + "\"" +  ")"   , function(err,res,fields){
+				if(err){
+					console.log(err)
+				}else{
+					callback("Студент изменен!");
+				}
+			})
+		}
+		
+	})
+	
+	
+}
+
+
+var delStud = function(options,callback){
+	connection.query('DELETE FROM stud WHERE id=' + "\"" + options.id + "\"", function(err,res,fields){
+		callback("Студент удален")
+	}) 
+}
+
+
 module.exports.editStudent = editStudent
+module.exports.delStud = delStud
+module.exports.addStudent = addStudent
 module.exports.getSudentsInfo = getSudentsInfo;
 module.exports.getCount = getCount;
 module.exports.getGroups = getGroups;
